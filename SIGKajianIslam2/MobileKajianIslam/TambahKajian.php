@@ -65,7 +65,7 @@ include_once "../settings/koneksi.php";
 	    $gambarNama = 'IMG_'.uniqid() . '.png';
 	    $file = UPLOAD_DIR . $gambarNama;
 	    $success = file_put_contents($file, $data);
-	    $finalImage = $server.$imagePoster.$gambarNama;
+	    $finalImage = $imagePoster.$gambarNama;
 
 	    define('UPLOAD_DIR2', '../image/tempat/');
 		$gambar2 = $_POST['gambartempat'];
@@ -75,7 +75,7 @@ include_once "../settings/koneksi.php";
 	    $gambarNama2 = 'IMG_'.uniqid() . '.png';
 	    $file2 = UPLOAD_DIR2 . $gambarNama2;
 	    $success2 = file_put_contents($file2, $data2);
-	    $finalImage2 = $server.$imageTempat.$gambarNama2;
+	    $finalImage2 = $imageTempat.$gambarNama2;
 	// end encode&decode gambar
 
 		$sql = "INSERT INTO formkajian (namakajian,namapemateri, namatempat, lat, lng, fotoposter, fototempat, alamat, kelurahan,kecamatan, tanggalkajian, waktumulai, waktuselesai, kuota, statuspeserta, statuskajian, statusberbayar, Pengelola, kontakpengelola, informasi, id_username) VALUES ('$namakajian','$namapemateri','$namatempat','$latitude','$longtitude', '$finalImage','$finalImage2','$alamat','$kelurahan','$kecamatan','$tanggalkajian','$waktumulai','$waktuselesai','$kuotapeserta','$statuspeserta','Aktif','$statusberbayar','$pengelola','$kontakpengelola','$informasi',(SELECT id_username FROM username WHERE username='$username' && status='Verifikasi' ));";

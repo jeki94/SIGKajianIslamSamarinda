@@ -44,7 +44,7 @@ include_once "../settings/koneksi.php";
 	    $gambarNama = 'IMG_'.uniqid() . '.png';
 	    $file = UPLOAD_DIR . $gambarNama;
 	    $success = file_put_contents($file, $data);
-	    $finalImage = $server.$imagePoster.$gambarNama;
+	    $finalImage = $imagePoster.$gambarNama;
 	}
 	
 	if (isset($_POST['gambartempat'])) {
@@ -56,7 +56,7 @@ include_once "../settings/koneksi.php";
 		$gambarNama2 = 'IMG_'.uniqid() . '.png';
 		$file2 = UPLOAD_DIR2 . $gambarNama2;
 		$success2 = file_put_contents($file2, $data2);
-		$finalImage2 = $server.$imageTempat.$gambarNama2;
+		$finalImage2 = $imageTempat.$gambarNama2;
 	}
 
 		// define('UPLOAD_DIR', '../image/poster/');

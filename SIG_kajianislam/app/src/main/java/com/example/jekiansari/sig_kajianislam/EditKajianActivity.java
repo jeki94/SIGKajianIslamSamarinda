@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import com.example.jekiansari.sig_kajianislam.Adapter.Kelurahan;
 import com.example.jekiansari.sig_kajianislam.Adapter.MyKajianAdapter;
 import com.example.jekiansari.sig_kajianislam.Model.EditResponse;
 import com.example.jekiansari.sig_kajianislam.Model.ListLocationModel;
+import com.example.jekiansari.sig_kajianislam.handler.ImageUtils;
 import com.example.jekiansari.sig_kajianislam.handler.JSONParser;
 import com.example.jekiansari.sig_kajianislam.services.ApiClient;
 import com.example.jekiansari.sig_kajianislam.services.ApiService;
@@ -41,6 +43,8 @@ import java.util.HashMap;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.jekiansari.sig_kajianislam.services.Config.URL_GMB;
 
 public class EditKajianActivity extends AppCompatActivity {
 
@@ -178,8 +182,8 @@ public class EditKajianActivity extends AppCompatActivity {
         username = pref.getString("username",null);
         author.setText("Author : "+username);
 
-        String gbrPoster = gambarposter;
-        String gbrTempat = gambartempat;
+        String gbrPoster = URL_GMB+gambarposter;
+        String gbrTempat = URL_GMB+gambartempat;
         // glide fungsi on
 //            Log.i("gambar",gbrBncana);
 //            Glide.with(NewDetailActivity.this).load(gbrBncana).into(ivGambar);
@@ -236,6 +240,14 @@ public class EditKajianActivity extends AppCompatActivity {
         buttonAddKajian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                Bitmap bit = drawable.getBitmap();
+                String gambar = ImageUtils.BitMapToString(bit);
+
+                BitmapDrawable drawable2 = (BitmapDrawable) imageView2.getDrawable();
+                Bitmap bit2 = drawable2.getBitmap();
+                String gambar2 = ImageUtils.BitMapToString(bit2);
+
                 editKajian(id,
                         editTextNamakajian.getText().toString(),
                         editTextNamapemateri.getText().toString(),
@@ -254,8 +266,8 @@ public class EditKajianActivity extends AppCompatActivity {
                         editTextPengelola.getText().toString(),
                         editTextKontakpengelola.getText().toString(),
                         editTextInformasi.getText().toString(),
-                        gambarposter,
-                        gambartempat
+                        gambar,
+                        gambar2
                         );
             }
         });

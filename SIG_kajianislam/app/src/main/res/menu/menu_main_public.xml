@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jekiansari.sig_kajianislam.MainActivity">
+    <item
+        android:id="@+id/Register"
+        android:orderInCategory="100"
+        android:title="@string/register"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Login"
+        android:orderInCategory="100"
+        android:title="@string/login"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Cari"
+        android:orderInCategory="100"
+        android:title="@string/carikajian"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Keluar"
+        android:orderInCategory="100"
+        android:title="@string/keluar"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom"/>
+</menu>

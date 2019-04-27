@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jekiansari.sig_kajianislam.MainUserActivity">
+
+    <item
+        android:id="@+id/Tambahkajian"
+        android:orderInCategory="100"
+        android:title="@string/tambahkajian"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/kajianumum"
+        android:orderInCategory="100"
+        android:title="@string/kajianumum"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Mykajian"
+        android:orderInCategory="100"
+        android:title="@string/kajiansaya"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Cari"
+        android:orderInCategory="100"
+        android:title="@string/carikajian"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/Logout"
+        android:orderInCategory="100"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_audiotrack_dark"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Kajian Islam Samarinda</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">Login</string>
+    <string name="keluar">Keluar</string>
+    <string name="carikajian">Cari Kajian</string>
+    <string name="register">Register</string>
+    <string name="tambahkajian">Tambah Kajian</string>
+    <string name="refresh">Refresh</string>
+    <string name="logout">Logout</string>
+    <string name="kajiansaya">Kajian Saya</string>
+    <string name="kajianumum">Seluruh Kajian</string>
+    <string name="API_KEY">AIzaSyDK2ksq_XQf8mm37wyFwltNQvSqKdUKWDM
+</string>
+    <string-array name="bencana">
+        <item>Banjir</item>
+        <item>Kebakaran</item>
+        <item>Tanah Longsor</item>
+        <item>Pohon Tumbang</item>
+        <item>Orang Tenggelam</item>
+        <item>Puting Beliung</item>
+        <item>Konflik Sosial</item>
+    </string-array>
+    <string name="title_activity_search_result_maps">Map</string>
+</resources>

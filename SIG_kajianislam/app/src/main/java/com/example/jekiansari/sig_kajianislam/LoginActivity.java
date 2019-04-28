@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity{
 //        Log.d("token = ",token);
 
         btn_login = (Button) findViewById(R.id.btn_login);
-        btn_register = (Button) findViewById(R.id.btn_register);
+        //btn_register = (Button) findViewById(R.id.btn_register);
         txt_username = (EditText) findViewById(R.id.txt_username);
         txt_password = (EditText) findViewById(R.id.txt_password);
 
@@ -112,16 +112,16 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(LoginActivity.this, TambahUserActivity.class);
-//                finish();
-                startActivity(intent);
-            }
-        });
+//        btn_register.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                Intent intent = new Intent(LoginActivity.this, TambahUserActivity.class);
+////                finish();
+//                startActivity(intent);
+//            }
+//        });
 
     }
 

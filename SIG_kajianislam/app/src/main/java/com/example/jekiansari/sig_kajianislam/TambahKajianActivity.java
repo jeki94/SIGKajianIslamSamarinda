@@ -451,67 +451,58 @@ public class TambahKajianActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-//        final String username = editTextUsername.getText().toString().trim();
-//        final String pass = editTextPassword.getText().toString().trim();
-//        final String nama = editTextNama.getText().toString().trim();
-//        final String tempatlahir = editTextTempatlahir.getText().toString().trim();
-//        final String tanggallahir = editTextTanggallahir.getText().toString().trim();
-//        final String alamat = editTextAlamat.getText().toString().trim();
-//        final String kelurahan = editTextKelurahan.getText().toString().trim();
-//        final String kecamatan = editTextKecamatan.getText().toString().trim();
-//        final String email = editTextEmail.getText().toString().trim();
-//        final String sosialmedia = editTextSosialmedia.getText().toString().trim();
-//        final String noKTP = editTextKTP.getText().toString().trim();
-//        final String telp = editTextTelp.getText().toString().trim();
-//        if (v == buttonAdd) {
-//            //belum dapat buat response
-//            if (username.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Username", Toast.LENGTH_LONG).show();
-//            } else if (pass.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Password", Toast.LENGTH_LONG).show();
-//            } else if (nama.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Nama", Toast.LENGTH_LONG).show();
-//            } else if (tempatlahir.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Tempat Lahir", Toast.LENGTH_LONG).show();
-//            } else if (tanggallahir.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Tanggal Lahir", Toast.LENGTH_LONG).show();
-//            } else if (alamat.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Alamat", Toast.LENGTH_LONG).show();
-//            } else if (kelurahan.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Kelurahan", Toast.LENGTH_LONG).show();
-//            } else if (kecamatan.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Kecamatan", Toast.LENGTH_LONG).show();
-//            } else if (email.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolomm Email", Toast.LENGTH_LONG).show();
-//            } else if (sosialmedia.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom Sosial Media", Toast.LENGTH_LONG).show();
-//            } else if (telp.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom No.Telpon", Toast.LENGTH_LONG).show();
-//            } else if (noKTP.isEmpty()) {
-//                Toast.makeText(TambahUserActivity.this, "Harap isi Kolom No.Identitas", Toast.LENGTH_LONG).show();
-//            } else if (click == 0) {
-//                Toast.makeText(TambahUserActivity.this, "Harap Masukkan Foto KTP", Toast.LENGTH_LONG).show();
-//            } else {
-//
-//                addUser();
-////                Log.e("nama lengkap", nama );
-////                Log.e("user", username );
-////                Log.e("kelurahan", kelurahan );
-////                Log.e("kecamatan", kecamatan );
-////                Log.e("tanggal lahir", tanggallahir);
-//                finish();
-//                Intent intent = new Intent(TambahUserActivity.this, MainActivity.class);
-//                startActivity(intent);
-
+        final String namakajian = editTextNamakajian.getText().toString().trim();
+        final String namapemateri = editTextNamapemateri.getText().toString().trim();
+        final String alamat = editTextAlamat.getText().toString().trim();
+        final String kelurahan = editTextKelurahan.getText().toString().trim();
+        final String kecamatan = editTextKecamatan.getText().toString().trim();
+        final String tanggalkajian = editTextTanggalkajian.getText().toString().trim();
+        final String waktumulai= editTextWaktumulai.getText().toString().trim();
+        final String waktuselesai = editTextWaktuselesai.getText().toString().trim();
+        final String kuotapeserta = editTextKuotapeserta.getText().toString().trim();
+        final String statuspeserta = editTextStatuspeserta.getText().toString().trim();
+        final String statusberbayar = editTextStatusberbayar.getText().toString().trim();
+        final String pengelola = editTextPengelola.getText().toString().trim();
+        final String kontakpengelola = editTextKontakpengelola.getText().toString().trim();
+        final String informasi = editTextInformasi.getText().toString().trim();
         final String lokasi = editTextNamatempat.getText().toString().trim();
         if(v == buttonAddKajian){
-            if (lokasi.isEmpty()){
+            if (namakajian.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Nama Kajian", Toast.LENGTH_LONG).show();
+            }else if (namapemateri.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Nama Pemateri", Toast.LENGTH_LONG).show();
+            }else if (lokasi.isEmpty()){
                 Toast.makeText(this,"Harap Isi Nama Tempat",Toast.LENGTH_LONG).show();
+            }else if (alamat.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Alamat", Toast.LENGTH_LONG).show();
+            }else if (kelurahan.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Kelurahan", Toast.LENGTH_LONG).show();
+            }else if (kecamatan.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Kecamatan", Toast.LENGTH_LONG).show();
+            }else if (tanggalkajian.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Tanggal Kajian", Toast.LENGTH_LONG).show();
+            }else if (waktumulai.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Waktu Mulai", Toast.LENGTH_LONG).show();
+            }else if (waktuselesai.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Waktu Selesai", Toast.LENGTH_LONG).show();
+            }else if (kuotapeserta.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Kuota Peserta", Toast.LENGTH_LONG).show();
+            }else if (statuspeserta.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Status Peserta", Toast.LENGTH_LONG).show();
+            }else if (statusberbayar.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Status Berbayar", Toast.LENGTH_LONG).show();
+            }else if (pengelola.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Pengelola", Toast.LENGTH_LONG).show();
+            }else if (kontakpengelola.isEmpty()) {
+                Toast.makeText(TambahKajianActivity.this, "Harap isi Kolom Kontak Pengelola", Toast.LENGTH_LONG).show();
             }else if (click == 0){
                 Toast.makeText(this,"Harap Pilih Gambar ",Toast.LENGTH_LONG).show();
-            }else {
+            }else if (click2 == 0){
+                Toast.makeText(this,"Harap Pilih Gambar ",Toast.LENGTH_LONG).show();
+            }
+            else {
                 addKajian();
-                Toast.makeText(this,"Mohon tunggu sedadng memasukkan data",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Mohon tunggu sedang memasukkan data",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, MainUserActivity.class);
                 startActivity(intent); // nanti
             }

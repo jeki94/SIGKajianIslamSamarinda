@@ -2,7 +2,7 @@ package com.example.jekiansari.sig_kajianislam.services;
 
 public class Config {
     //location server
-    public static final String IP = "http://192.168.100.89/";
+    public static final String IP = "http://192.168.1.4/";
     public static final String URL_GMB = IP+"SIGKajianIslam2/";
     public static final String URL_SERVER = IP+"SIGKajianIslam2/MobileKajianIslam/";
     // plis jangan d ganti kalo mau d commen aja malas aku bukka cmd berat

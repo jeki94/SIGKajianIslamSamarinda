@@ -69,21 +69,23 @@ public class CariKajianActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                day = day;
                 String monthConverted = ""+month;
                 String dayConverted = ""+day;
-                if(month<10 && day <10){
-                    monthConverted = "0"+monthConverted;
-                    dayConverted = "0"+dayConverted;
+                if(month<10){
+                    monthConverted = "0"+month;
+                }
+                if (day<10){
+                    dayConverted = "0"+day;
                 }
                 Log.d("Isinya ", "onDateSet: dd/mm/yyy: " + dayConverted + "/" + monthConverted + "/" + year);
 
-                String date = dayConverted + "-" + monthConverted + "-" + year;
-                edtTanggal.setText(date);
+//                String date = dayConverted + "-" + monthConverted + "-" + year;
+//                edtTanggal.setText(date);
 
-                String sendParameter1 = year + "-" + monthConverted + "-" + dayConverted;
-                Parameter1 = sendParameter1;
-                Log.e("parameter",sendParameter1);
+                String date = year + "-" + monthConverted + "-" + dayConverted;
+//                Parameter1 = sendParameter1;
+                edtTanggal.setText(date);
+//                Log.e("parameter",sendParameter1);
             }
         };
     }

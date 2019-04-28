@@ -1,10 +1,10 @@
 package com.example.jekiansari.sig_kajianislam.Model;
 
-public class EditResponse {
+public class BaseResponse {
 
     private String success;
 
-    public EditResponse() {
+    public BaseResponse() {
     }
 
     public String getSuccess() {
@@ -15,7 +15,7 @@ public class EditResponse {
         this.success = success;
     }
 
-    public EditResponse(String success) {
+    public BaseResponse(String success) {
 
         this.success = success;
     }

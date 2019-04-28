@@ -1,7 +1,10 @@
 package com.example.jekiansari.sig_kajianislam;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -23,7 +26,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.jekiansari.sig_kajianislam.Model.BaseResponse;
 import com.example.jekiansari.sig_kajianislam.services.AlarmReceiver;
+import com.example.jekiansari.sig_kajianislam.services.ApiClient;
+import com.example.jekiansari.sig_kajianislam.services.ApiService;
 import com.example.jekiansari.sig_kajianislam.services.Config;
 
 import org.json.JSONArray;
@@ -32,6 +38,9 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class DetailMyKajianActivity extends AppCompatActivity {
     ListView fruitsList;
@@ -48,6 +57,10 @@ public class DetailMyKajianActivity extends AppCompatActivity {
     String test;
 
     private AlarmReceiver alarmReceiver;
+
+    private String username;
+
+    private Boolean isTelahSelesai = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,72 +105,44 @@ public class DetailMyKajianActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DetailMyKajianActivity.this, MapsTambahActivity.class)
-                .putExtra(MapsTambahActivity.EXTRA_ISEDIT, true)
-                .putExtra("id", idKajian)
-                .putExtra("namakajian", namakajian)
-                .putExtra("namapemateri", namapemateri)
-                .putExtra("namatempat", namatempat)
-                .putExtra("lat", lat)
-                .putExtra("lng", lng)
-                .putExtra("alamat", alamat)
-                .putExtra("kelurahan", kelurahan)
-                .putExtra("kecamatan", kecamatan)
-                .putExtra("tanggalkajian", tanggalkajian)
-                .putExtra("waktumulai", waktumulai)
-                .putExtra("waktuselesai", waktuselesai)
-                .putExtra("kuota", kuotapeserta)
-                .putExtra("statuspeserta", statuspeserta)
-                .putExtra("statusberbayar", statusberbayar)
-                .putExtra("pengelola", pengelola)
-                .putExtra("kontakpengelola", kontakpengelola)
-                .putExtra("informasi", informasi)
-                .putExtra("gambarposter", gambarposter)
-                .putExtra("gambartempat", gambartempat)
+                        .putExtra(MapsTambahActivity.EXTRA_ISEDIT, true)
+                        .putExtra("id", idKajian)
+                        .putExtra("namakajian", namakajian)
+                        .putExtra("namapemateri", namapemateri)
+                        .putExtra("namatempat", namatempat)
+                        .putExtra("lat", lat)
+                        .putExtra("lng", lng)
+                        .putExtra("alamat", alamat)
+                        .putExtra("kelurahan", kelurahan)
+                        .putExtra("kecamatan", kecamatan)
+                        .putExtra("tanggalkajian", tanggalkajian)
+                        .putExtra("waktumulai", waktumulai)
+                        .putExtra("waktuselesai", waktuselesai)
+                        .putExtra("kuota", kuotapeserta)
+                        .putExtra("statuspeserta", statuspeserta)
+                        .putExtra("statusberbayar", statusberbayar)
+                        .putExtra("pengelola", pengelola)
+                        .putExtra("kontakpengelola", kontakpengelola)
+                        .putExtra("informasi", informasi)
+                        .putExtra("gambarposter", gambarposter)
+                        .putExtra("gambartempat", gambartempat)
                 );
             }
         });
 
-//        gps.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Create a Uri from an intent string. Use the result to create an Intent.
-//                Uri gmmIntentUri = Uri.parse("google.navigation:q="+lat+","+lng);
-//
-//// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//// Make the Intent explicit by setting the Google Maps package
-//                mapIntent.setPackage("com.google.android.apps.maps");
-//
-//// Attempt to start an activity that can handle the Intent
-//                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(mapIntent);
-//                }
-//
-//
-//            }
-//        });
-//
-//        notif.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alarmReceiver.setalarm(DetailMyKajianActivity.this, tanggalkajian, waktumulai, "Kajian sebentar lagi akan dimulai", id);
-//            }
-//        });
-        //button
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent addId = getIntent();
-//                final String id = addId.getStringExtra("Value");
-////                final String loc = addId.getStringExtra("loc");
-//                String loc = posisi.getText().toString().trim();
-//                Intent i = new Intent(NewDetailActivity.this,NewEditActivity.class);
-//                i.putExtra("Value",id);
-//                i.putExtra("loc",loc);
-//                startActivity(i);
-//            }
-//        });
+        findViewById(R.id.btn_telahselesai).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AskOption("Apakah telah selesai?", "Telah Selesai", false);
+            }
+        });
 
+        findViewById(R.id.btn_hapuskajian).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AskOption("Apakah yakin ingin menghapus?", "Hapus Kajian", true);
+            }
+        });
 
 //        hapus.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -187,6 +172,62 @@ public class DetailMyKajianActivity extends AppCompatActivity {
 
         RequestQueue rQueue = Volley.newRequestQueue(DetailMyKajianActivity.this);
         rQueue.add(request);
+
+        SharedPreferences pref = getSharedPreferences("SP_USER", MODE_PRIVATE);
+//        TextView author = (TextView)findViewById(R.id.author);
+        username = pref.getString("username", null);
+//        author.setText("Author : "+username);
+    }
+
+    private void ubahStatus(String statusKajian) {
+        final ProgressDialog dialog = new ProgressDialog(DetailMyKajianActivity.this);
+        dialog.setMessage("Mengganti status kajian ..");
+        dialog.show();
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<BaseResponse> call = apiService.gantiStatus(statusKajian, idKajian, username);
+        call.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, retrofit2.Response<BaseResponse> response) {
+                dialog.dismiss();
+                Toast.makeText(DetailMyKajianActivity.this, ""+response.body().getSuccess(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void AskOption(String message, String title, final Boolean isDelete){
+        AlertDialog.Builder ad = new AlertDialog.Builder(DetailMyKajianActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setIcon(R.drawable.common_google_signin_btn_icon_dark)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (isDelete){
+                            ubahStatus("Dibatalkan");
+                        } else {
+                            ubahStatus("TelahSelesai");
+                        }
+                        dialogInterface.dismiss();
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        ad.show();
     }
 
     //header button
@@ -212,6 +253,16 @@ public class DetailMyKajianActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        if (isTelahSelesai){
+//
+//        } else {
+//            super.onBackPressed();
+//        }
+//
+//    }
+
     //back menu
     @Override
     public boolean onSupportNavigateUp() {
@@ -228,7 +279,6 @@ public class DetailMyKajianActivity extends AppCompatActivity {
 
             Log.v("objek", dben.toString());
             String[] namanya = new String[dben.length()];
-
 
 
             for (int i = 0; i < dben.length(); i++) {

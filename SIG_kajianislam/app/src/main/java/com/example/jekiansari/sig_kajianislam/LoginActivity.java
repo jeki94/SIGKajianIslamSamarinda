@@ -112,16 +112,16 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-//        btn_register.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                intent = new Intent(LoginActivity.this, NewTambahUser.class);
-////                finish();
-//                startActivity(intent);
-//            }
-//        });
+        btn_register.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(LoginActivity.this, TambahUserActivity.class);
+//                finish();
+                startActivity(intent);
+            }
+        });
 
     }
 

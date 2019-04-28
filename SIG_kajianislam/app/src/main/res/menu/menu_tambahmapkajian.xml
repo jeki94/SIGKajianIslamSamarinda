@@ -4,7 +4,7 @@
     tools:context="com.example.jekiansari.sig_kajianislam.TambahKajianActivity.MainActivity">
     <item
         android:id="@+id/check"
-        android:icon="@drawable/cast_abc_scrubber_control_to_pressed_mtrl_005"
+        android:icon="@drawable/ic_done_black_24dp"
         android:title="Lanjut"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -18,9 +18,12 @@ import java.util.ArrayList;
 public class MyKajianAdapter extends RecyclerView.Adapter<MyKajianAdapter.MyKajianViewHolder> {
 
     private ArrayList<LocationModel> datas;
+    private KajianListener listener;
 
-    public MyKajianAdapter(ArrayList<LocationModel> datas) {
+    public MyKajianAdapter(ArrayList<LocationModel> datas,
+                           KajianListener listener) {
         this.datas = datas;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,9 +40,7 @@ public class MyKajianAdapter extends RecyclerView.Adapter<MyKajianAdapter.MyKaji
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(holder.itemView.getContext(), DetailMyKajianActivity.class);
-                intent.putExtra("id_kajian",datas.get(position).getIdkajian());
-                holder.itemView.getContext().startActivity(intent);
+                listener.onKajianClicked(datas.get(position).getIdkajian());
             }
         });
     }

@@ -110,9 +110,13 @@ public class MainUserActivity extends AppCompatActivity implements OnMapReadyCal
 
             finish();
             return true;
+
 //        }else if (id == R.id.refresh){
 //
 //            return true;
+        }else if (id == R.id.refresh){
+            getAllDataLocationLatLng();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

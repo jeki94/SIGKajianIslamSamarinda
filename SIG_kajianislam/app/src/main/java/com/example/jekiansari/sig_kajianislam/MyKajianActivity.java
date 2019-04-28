@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jekiansari.sig_kajianislam.Adapter.KajianListener;
 import com.example.jekiansari.sig_kajianislam.Adapter.MyKajianAdapter;
 import com.example.jekiansari.sig_kajianislam.Model.ListLocationModel;
 import com.example.jekiansari.sig_kajianislam.Model.LocationModel;
@@ -80,8 +81,23 @@ public class MyKajianActivity extends AppCompatActivity
         rvMyKajian.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvMyKajian.getContext(), linearLayoutManager.getOrientation());
         rvMyKajian.addItemDecoration(dividerItemDecoration);
-        adapter = new MyKajianAdapter(mListMarker);
+        adapter = new MyKajianAdapter(mListMarker, new KajianListener() {
+            @Override
+            public void onKajianClicked(String idKajian) {
+                Intent intent = new Intent(MyKajianActivity.this, DetailMyKajianActivity.class);
+                intent.putExtra("id_kajian", idKajian);
+                startActivityForResult(intent, 10);
+            }
+        });
         rvMyKajian.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == RESULT_OK){
+            getAllDataLocationLatLng();
+        }
     }
 
     @Override
@@ -104,6 +120,8 @@ public class MyKajianActivity extends AppCompatActivity
             startActivity(intent);
             return true;
         }else if (id == R.id.Cari){
+            Intent intent = new Intent(MyKajianActivity.this, CariKajianActivity.class);
+            startActivity(intent);
             return true;
         }
         else if (id == R.id.kajianumum){
@@ -210,6 +228,9 @@ public class MyKajianActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<ListLocationModel> call, Response<ListLocationModel> response) {
                 dialog.dismiss();
+                if (!mListMarker.isEmpty()) {
+                    mListMarker.clear();
+                }
                 mListMarker.addAll(response.body().getmData());
                 adapter.notifyDataSetChanged();
 //                initMarker(mListMarker);

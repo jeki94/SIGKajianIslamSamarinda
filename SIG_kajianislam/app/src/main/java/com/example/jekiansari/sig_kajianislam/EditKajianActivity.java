@@ -35,11 +35,16 @@ import com.example.jekiansari.sig_kajianislam.services.Config;
 
 import org.json.JSONArray;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,6 +95,9 @@ public class EditKajianActivity extends AppCompatActivity {
     JSONArray daftarKelurahan = null;
 
     String username;
+
+    String imgTempatPath, imgPosterPath;
+    private File compressImgTempat, compressImgPoster;
 
 
     private String id, namakajian = null, namapemateri = null, namatempat = null, alamat = null, lat = null, lng = null, kelurahan = null, kecamatan = null, tanggalkajian = null, waktumulai = null, waktuselesai = null, kuotapeserta = null, statuspeserta = null, statusberbayar = null, pengelola = null, kontakpengelola = null, informasi = null, gambarposter = null, gambartempat = null;
@@ -301,29 +309,77 @@ public class EditKajianActivity extends AppCompatActivity {
         dialog.setMessage("Mengedit kajian ..");
         dialog.show();
 
+        MultipartBody.Part imgTempat, imgPoster;
+
+        RequestBody dataIdKajian = RequestBody.create(MediaType.parse("text/plain"), idKajian);
+        RequestBody dataNamaKajian = RequestBody.create(MediaType.parse("text/plain"), namakajian);
+        RequestBody dataNamaPemateri = RequestBody.create(MediaType.parse("text/plain"), namapemateri);
+        RequestBody dataNamaTempat = RequestBody.create(MediaType.parse("text/plain"), namatempat);
+        RequestBody dataLat = RequestBody.create(MediaType.parse("text/plain"), latitud);
+        RequestBody dataLng = RequestBody.create(MediaType.parse("text/plain"), longtit);
+        RequestBody dataAlamat = RequestBody.create(MediaType.parse("text/plain"), alamat);
+        RequestBody dataKelurahan = RequestBody.create(MediaType.parse("text/plain"), kelurah);
+        RequestBody dataKecamatan = RequestBody.create(MediaType.parse("text/plain"), kecamat);
+        RequestBody dataTanggal = RequestBody.create(MediaType.parse("text/plain"), tanggal);
+        RequestBody dataWaktuMulai = RequestBody.create(MediaType.parse("text/plain"), waktumu);
+        RequestBody dataWaktuSelesai = RequestBody.create(MediaType.parse("text/plain"), waktuse);
+        RequestBody dataKuotaPeserta = RequestBody.create(MediaType.parse("text/plain"), kuotape);
+        RequestBody dataStatusPeserta = RequestBody.create(MediaType.parse("text/plain"), statusp);
+        RequestBody dataStatusBerbayar = RequestBody.create(MediaType.parse("text/plain"), statusb);
+        RequestBody dataPengelola = RequestBody.create(MediaType.parse("text/plain"), pengelo);
+        RequestBody dataCpPengelola = RequestBody.create(MediaType.parse("text/plain"), kontakp);
+        RequestBody dataInformasi = RequestBody.create(MediaType.parse("text/plain"), informa);
+        RequestBody dataUsername = RequestBody.create(MediaType.parse("text/plain"), username);
+
+        if (imgTempatPath != null) {
+            File fileImgTempat = new File(imgTempatPath);
+            try {
+                compressImgTempat = new Compressor(this).compressToFile(fileImgTempat);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            RequestBody fileTempatPath = RequestBody.create(MediaType.parse("image/*"), compressImgTempat);
+            imgTempat = MultipartBody.Part.createFormData("profile_photo", fileImgTempat.getName(), fileTempatPath);
+        } else {
+            imgTempat = null;
+        }
+        if (imgPosterPath != null) {
+            File filePoster = new File(imgPosterPath);
+            try {
+                compressImgPoster = new Compressor(this).compressToFile(filePoster);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            RequestBody filePosterPath = RequestBody.create(MediaType.parse("image/*"), compressImgPoster);
+            imgPoster = MultipartBody.Part.createFormData("ktp_photo", filePoster.getName(), filePosterPath);
+        } else {
+            imgPoster = null;
+        }
+
+
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<EditResponse> call = apiService.editKajian(
-                idKajian,
-                username,
-                namakajian,
-                namapemateri,
-                namatempat,
-                latitud,
-                longtit,
-                alamat,
-                kelurah,
-                kecamat,
-                tanggal,
-                waktumu,
-                waktuse,
-                kuotape,
-                statusp,
-                statusb,
-                pengelo,
-                kontakp,
-                informa,
-                gambarp,
-                gambart
+                dataIdKajian,
+                dataUsername,
+                dataNamaKajian,
+                dataNamaPemateri,
+                dataNamaTempat,
+                dataLat,
+                dataLng,
+                dataAlamat,
+                dataKelurahan,
+                dataKecamatan,
+                dataTanggal,
+                dataWaktuMulai,
+                dataWaktuSelesai,
+                dataKuotaPeserta,
+                dataStatusPeserta,
+                dataStatusBerbayar,
+                dataPengelola,
+                dataCpPengelola,
+                dataInformasi,
+                imgPoster,
+                imgTempat
         );
         call.enqueue(new Callback<EditResponse>() {
             @Override
@@ -369,19 +425,19 @@ public class EditKajianActivity extends AppCompatActivity {
         Log.e("req", String.valueOf(aa));
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-                Uri filePath = data.getData();
+                imgTempatPath = data.getData().getPath();
 
-                try {
-
-                    //mengambil fambar dari Gallery
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    imageView.setImageBitmap(getResizedBitmap(bitmap, 512));
-                    click = 1;
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//
+//                    //mengambil fambar dari Gallery
+//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+//                    imageView.setImageBitmap(getResizedBitmap(bitmap, 512));
+//                    click = 1;
+//
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             } else if (resultCode == RESULT_CANCELED) {
                 Log.e("gambar", " ada error digambar");
             }
@@ -389,19 +445,19 @@ public class EditKajianActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST2) {
             if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-                Uri filePath = data.getData();
+                 imgPosterPath = data.getData().getPath();
 
-                try {
-
-                    //mengambil fambar dari Gallery
-                    bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    imageView2.setImageBitmap(getResizedBitmap(bitmap2, 512));
-                    click2 = 1;
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//
+//                    //mengambil fambar dari Gallery
+//                    bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+//                    imageView2.setImageBitmap(getResizedBitmap(bitmap2, 512));
+//                    click2 = 1;
+//
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             } else if (resultCode == RESULT_CANCELED) {
                 Log.e("gambar", "ada error di gambar");
 
@@ -409,18 +465,18 @@ public class EditKajianActivity extends AppCompatActivity {
         }
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
+//    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+//        int width = image.getWidth();
+//        int height = image.getHeight();
+//
+//        float bitmapRatio = (float) width / (float) height;
+//        if (bitmapRatio > 1) {
+//            width = maxSize;
+//            height = (int) (width / bitmapRatio);
+//        } else {
+//            height = maxSize;
+//            width = (int) (height * bitmapRatio);
+//        }
+//        return Bitmap.createScaledBitmap(image, width, height, true);
+//    }
 }

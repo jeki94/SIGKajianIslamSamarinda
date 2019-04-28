@@ -4,11 +4,15 @@ import com.example.jekiansari.sig_kajianislam.Model.EditResponse;
 import com.example.jekiansari.sig_kajianislam.Model.ListLocationModel;
 import com.example.jekiansari.sig_kajianislam.Model.SearchKajianResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -23,30 +27,31 @@ public interface ApiService {
             @Query("namakajian") String namakajian
     );
 
+    @Multipart
     @POST("EditKajian.php")
     @FormUrlEncoded
     Call<EditResponse> editKajian(
-            @Field("id_kajian") String idKajian,
-            @Field("username") String username,
-            @Field("namakajian") String namakajian,
-            @Field("namapemateri")String namapemateri,
-            @Field("namatempat") String namatempat,
-            @Field("latitude") String latitude,
-            @Field("longtitude") String longtitude,
-            @Field("alamat") String alamat,
-            @Field("kelurahan")String kelurahan,
-            @Field("kecamatan")String kecamatan,
-            @Field("tanggalkajian")String tanggalkajian,
-            @Field("waktumulai") String waktumulai,
-            @Field("waktuselesai") String waktuselesai,
-            @Field("kuotapeserta") String kuotapeserta,
-            @Field("statuspeserta") String statuspeserta,
-            @Field("statusberbayar") String statusberbayar,
-            @Field("pengelola") String pengelola,
-            @Field("kontakpengelola") String kontakpengelola,
-            @Field("informasi")String informasi,
-            @Field("gambarposter") String gambarposter,
-            @Field("gambartempat") String gambartempat
+            @Part("id_kajian") RequestBody idKajian,
+            @Part("username") RequestBody username,
+            @Part("namakajian") RequestBody namakajian,
+            @Part("namapemateri")RequestBody namapemateri,
+            @Part("namatempat") RequestBody namatempat,
+            @Part("latitude") RequestBody latitude,
+            @Part("longtitude") RequestBody longtitude,
+            @Part("alamat") RequestBody alamat,
+            @Part("kelurahan")RequestBody kelurahan,
+            @Part("kecamatan")RequestBody kecamatan,
+            @Part("tanggalkajian")RequestBody tanggalkajian,
+            @Part("waktumulai") RequestBody waktumulai,
+            @Part("waktuselesai") RequestBody waktuselesai,
+            @Part("kuotapeserta") RequestBody kuotapeserta,
+            @Part("statuspeserta") RequestBody statuspeserta,
+            @Part("statusberbayar") RequestBody statusberbayar,
+            @Part("pengelola") RequestBody pengelola,
+            @Part("kontakpengelola") RequestBody kontakpengelola,
+            @Part("informasi")RequestBody informasi,
+            @Part MultipartBody.Part gambarposter,
+            @Part MultipartBody.Part gambartempat
 
     );
 }

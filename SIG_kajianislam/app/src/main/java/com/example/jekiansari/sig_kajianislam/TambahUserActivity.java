@@ -64,7 +64,8 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
 
     private DatePickerDialog.OnDateSetListener mDateSetListener1;
     String Parameter1="";
-
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_FAILED = "failed";
     private Button buttonAdd;
     private Button buttonBack;
     Button buttonChoose, buttonChoose2;
@@ -84,7 +85,7 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
     JSONParser jParser = new JSONParser();
     JSONArray daftarKelurahan = null;
 
-
+    ProgressDialog loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +139,7 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                day = day + 1;
+                day = day;
                 String monthConverted = ""+month;
                 String dayConverted = ""+day;
                 if(month<10 && day <10){
@@ -308,6 +309,23 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
 // ----------------------------------------------   end picture satu 1 -------------------------
 
 
+//    @Override
+//    public void onDestroy(){
+//        super.onDestroy();
+//        if ( loading!=null && loading.isShowing() ){
+//            loading.cancel();
+//        }
+//    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (loading != null) {
+            loading.dismiss();
+            loading = null;
+        }
+    }
+
     //Dibawah ini merupakan perintah untuk Menambahkan user (CREATE)
     private void addUser() {
 
@@ -327,19 +345,20 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
 
         class addUser extends AsyncTask<Void, Void, String> {
 
-            ProgressDialog loading;
+
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(TambahUserActivity.this,"Menambahkan...","Tunggu...",false,false);
 
+              loading = ProgressDialog.show(TambahUserActivity.this,"Menambahkan...","Tunggu...",true,true);
+                Log.e("mulai loading","error");
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                loading.dismiss();
+                //loading.dismiss();
                 Toast.makeText(TambahUserActivity.this,"Berhasil Menambah Anggota",Toast.LENGTH_LONG).show();
 //                Log.e("sempak",s);
             }
@@ -391,6 +410,7 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
                 String res = rh.sendPostRequest(URL_ADD_USER, params);
                 return res;
             }
+
         }
 
         addUser au = new addUser();
@@ -411,6 +431,7 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
         final String sosialmedia = editTextSosialmedia.getText().toString().trim();
         final String noKTP = editTextKTP.getText().toString().trim();
         final String telp = editTextTelp.getText().toString().trim();
+        //final String Takenusername = db.g
         if (v == buttonAdd) {
             //belum dapat buat response
             if (username.isEmpty()) {
@@ -442,11 +463,6 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
             } else {
 
                 addUser();
-//                Log.e("nama lengkap", nama );
-//                Log.e("user", username );
-//                Log.e("kelurahan", kelurahan );
-//                Log.e("kecamatan", kecamatan );
-//                Log.e("tanggal lahir", tanggallahir);
                 finish();
                 Intent intent = new Intent(TambahUserActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -469,146 +485,9 @@ public class TambahUserActivity extends AppCompatActivity implements View.OnClic
 
         }
     }
+
+
 }
 
 
-//    public String getKelurahanList() {
-//
-//        Kelurahan k = new Kelurahan();
-//
-//        List<NameValuePair> p = new ArrayList<NameValuePair>();
-//        try {
-//
-//            JSONObject json = jParser.makeHttpRequest(URL_SERVER + "read_kelurahan.php", "POST", p);
-//            int success = json.getInt(TAG_SUCCESS);
-//            if (success == 1) {
-//                daftarKelurahan = json.getJSONArray("kelurahan");
-//                for (int i = 0; i < daftarKelurahan.length(); i++) {
-//                    JSONObject c = daftarKelurahan.getJSONObject(i);
-//                    k = new Kelurahan();
-//                    k.setId_kelurahan(c.getString("id_kelurahan"));
-//
-//                    k.setNamakelurahan(c.getString("namakelurahan"));
-//
-//                    k.setId_kecamatan(c.getString("alamat_kampung"));
-//
-//                    kelurahanArrayList.add(k);
-//
-//                    Log.e("asasas",daftarKelurahan.toString());
-//
-//
-//                }
-//
-//                return "ok";
-//
-//            } else {
-//                return "no result";
-//            }
-//        } catch (Exception e) {
-//            return "error";
-//
-//        }
-//    }}
 
-//    private void getdata(){
-//
-//        class getData extends AsyncTask<String,String,JSONObject>{
-//
-//
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//                // Showing progress dialog
-//                pDialog = new ProgressDialog(TambahUserActivity.this);
-//                pDialog.setMessage("Please wait...");
-//                pDialog.setCancelable(false);
-//                pDialog.show();
-//
-//            }
-//
-////            @Override
-////            protected JSONObject doInBackground(String... args) {
-////                HttpHandler sh = new HttpHandler();
-////
-////                // Making a request to url and getting response
-////                String jsonStr = sh.makeServiceCall(Config.URL_SERVER+"read_kelurahan.php");
-////                Log.e("datanya",jsonStr);
-////
-//////            Log.e(TAG, "Response from url: " + jsonStr);
-////
-////                if (jsonStr != null) {
-////                    try {
-////                        JSONObject jsonObj = new JSONObject(jsonStr);
-////
-////                        // Getting JSON Array node
-////                        JSONArray contacts = jsonObj.getJSONArray("kelurahan");
-////
-////                        // looping through All Contacts
-////                        for (int i = 0; i < contacts.length(); i++) {
-////                            JSONObject c = contacts.getJSONObject(i);
-////
-////                            String id_kelurahan = c.getString("id_kelurahan");
-////                            String namakelurahan = c.getString("namakelurahan");
-////                            String id_kecamatan = c.getString("id_kecamatan");
-////
-////
-////
-////                            // tmp hash map for single contact
-////                            HashMap<String, String> contact = new HashMap<>();
-////
-////                            // adding each child node to HashMap key => value
-////                            contact.put("id_kelurahan", id_kelurahan);
-////                            contact.put("namakelurahan", namakelurahan);
-////                            contact.put("id_kecamatan", id_kecamatan);
-////
-////                            Log.e("datanya",id_kelurahan+id_kecamatan+namakelurahan);
-////
-////                            // adding contact to contact list
-////                            AarayList.add(contact);
-////
-////                        }
-////                    } catch (final JSONException e) {
-////                        Log.e("TAG", "Json parsing error: " + e.getMessage());
-////                        runOnUiThread(new Runnable() {
-////                            @Override
-////                            public void run() {
-////                                Toast.makeText(getApplicationContext(),
-////                                        "Json parsing error: " + e.getMessage(),
-////                                        Toast.LENGTH_LONG)
-////                                        .show();
-////                            }
-////                        });
-////
-////                    }
-////                } else {
-////                    Log.e("TAG", "Couldn't get json from server.");
-////                    runOnUiThread(new Runnable() {
-////                        @Override
-////                        public void run() {
-////                            Toast.makeText(getApplicationContext(),
-////                                    "Couldn't get json from server. Check LogCat for possible errors!",
-////                                    Toast.LENGTH_LONG)
-////                                    .show();
-////                        }
-////                    });
-////
-////                }
-////
-////                return null;
-////            }
-//
-////            @Override
-////            protected void onPostExecute(JSONObject result) {
-////                super.onPostExecute(result);
-////                // Dismiss the progress dialog
-////                if (pDialog.isShowing())
-////                    pDialog.dismiss();
-////            }
-////        }
-//
-//        getData gd = new getData();
-//        gd.execute();
-//    }
-//
-//
-//}

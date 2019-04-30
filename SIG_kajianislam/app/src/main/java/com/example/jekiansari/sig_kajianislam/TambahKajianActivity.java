@@ -353,6 +353,7 @@ public class TambahKajianActivity extends AppCompatActivity implements View.OnCl
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
+
 //                Intent i = new Intent(TambahKajianActivity.this,MainUserActivity.class);
                 Toast.makeText(TambahKajianActivity.this,"Berhasil Menambah Kajian",Toast.LENGTH_LONG).show();
 //                startActivity(i);
